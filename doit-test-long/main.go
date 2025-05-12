@@ -1,7 +1,11 @@
 package main
 
-import "github.com/zuhrulumam/doit-test/cmd"
+import (
+	"github.com/joho/godotenv"
+	"github.com/zuhrulumam/doit-test/cmd"
+)
 
 func main() {
+	_ = godotenv.Load()
 	cmd.Execute()
 }

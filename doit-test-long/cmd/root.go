@@ -18,6 +18,8 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(serverCommand)
+	rootCmd.AddCommand(seedCommand)
+	rootCmd.AddCommand(cleanerCommand)
 }
 
 func Execute() {
