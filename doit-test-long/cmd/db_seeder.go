@@ -21,15 +21,13 @@ type ParkingSpot struct {
 	Type     string `gorm:"size:1"` // 'B', 'M', 'A', 'X'
 	Active   bool
 	Occupied bool
-
-	Vehicle Vehicle `gorm:"foreignKey:SpotID"`
 }
 
 type Vehicle struct {
-	ID            uint   `gorm:"primaryKey"`
-	VehicleNumber string `gorm:"uniqueIndex"`
+	ID            uint `gorm:"primaryKey"`
+	VehicleNumber string
 	VehicleType   string `gorm:"size:1"` // 'B', 'M', 'A'
-	SpotID        uint   // Foreign key to ParkingSpot
+	SpotID        string
 	ParkedAt      time.Time
 	UnparkedAt    *time.Time
 }

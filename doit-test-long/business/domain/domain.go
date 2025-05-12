@@ -1,14 +1,28 @@
 package domain
 
-import "github.com/zuhrulumam/doit-test/business/domain/parking"
+import (
+	"github.com/zuhrulumam/doit-test/business/domain/parking"
+	"github.com/zuhrulumam/doit-test/business/domain/transaction"
+	"gorm.io/gorm"
+)
 
 type Domain struct {
-	Parking parking.DomainItf
+	Parking     parking.DomainItf
+	Transaction transaction.DomainItf
 }
 
-func Init() *Domain {
+type Option struct {
+	DB *gorm.DB
+}
+
+func Init(opt Option) *Domain {
 	d := &Domain{
-		Parking: parking.InitParkingDomain(),
+		Parking: parking.InitParkingDomain(parking.Option{
+			DB: opt.DB,
+		}),
+		Transaction: transaction.Init(transaction.Option{
+			DB: opt.DB,
+		}),
 	}
 
 	return d

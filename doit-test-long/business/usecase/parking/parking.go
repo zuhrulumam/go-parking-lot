@@ -1,21 +1,35 @@
 package parking
 
 import (
+	"context"
+
 	parkingDom "github.com/zuhrulumam/doit-test/business/domain/parking"
+	transactionDom "github.com/zuhrulumam/doit-test/business/domain/transaction"
+	"github.com/zuhrulumam/doit-test/business/entity"
 )
 
 type UsecaseItf interface {
-	Park()
+	Park(ctx context.Context, data entity.Park) error
 	// Unpark()
 	// AvailableSpot()
 	// SearchVehicle()
 }
 
-type parking struct {
+type Option struct {
+	ParkingDom     parkingDom.DomainItf
+	TransactionDom transactionDom.DomainItf
 }
 
-func InitParkingUsecase(parkingDom parkingDom.DomainItf) UsecaseItf {
-	p := &parking{}
+type parking struct {
+	ParkingDom     parkingDom.DomainItf
+	TransactionDom transactionDom.DomainItf
+}
+
+func InitParkingUsecase(opt Option) UsecaseItf {
+	p := &parking{
+		ParkingDom:     opt.ParkingDom,
+		TransactionDom: opt.TransactionDom,
+	}
 
 	return p
 }

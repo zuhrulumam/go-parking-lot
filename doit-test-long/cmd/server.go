@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/zuhrulumam/doit-test/business/domain"
 	"github.com/zuhrulumam/doit-test/business/usecase"
+	"gorm.io/gorm"
 )
 
 var serverCommand = &cobra.Command{
@@ -20,12 +21,23 @@ var serverCommand = &cobra.Command{
 var (
 	dom *domain.Domain
 	uc  *usecase.Usecase
+	db  *gorm.DB
 )
 
 func run() {
 
+	// init sql
+	g, err := connectDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	db = g
+
 	// init domain
-	dom = domain.Init()
+	dom = domain.Init(domain.Option{
+		DB: db,
+	})
 
 	// init usecase
 	uc = usecase.Init(dom, usecase.Option{})
@@ -36,3 +48,5 @@ func run() {
 
 	log.Println(app.Listen(":3000"))
 }
+
+// TODO: Gracefull shutdown

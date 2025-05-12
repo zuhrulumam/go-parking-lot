@@ -18,5 +18,5 @@ func Init(uc *usecase.Usecase) Rest {
 }
 
 func (r rest) Serve() {
-	r.uc.Parking.Park()
+	// r.uc.Parking.Park()
 }
