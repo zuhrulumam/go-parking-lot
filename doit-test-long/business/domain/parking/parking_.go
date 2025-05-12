@@ -62,14 +62,27 @@ func (p *parking) UpdateParkingSpot(ctx context.Context, data entity.UpdateParki
 
 	db := pkg.GetTransactionFromCtx(ctx, p.db)
 
-	// if data.SpotID == "" {
-	// 	return fmt.Errorf("spot_id is required")
-	// }
+	tx := db.WithContext(ctx).Model(&entity.ParkingSpot{})
 
-	if err := db.WithContext(ctx).
-		Model(&entity.ParkingSpot{}).
-		// Where("spot_id = ?", data.SpotID).
-		Update("occupied", data.Occupied).Error; err != nil {
+	// Build conditional WHERE clause
+	if data.ID > 0 {
+		tx = tx.Where("id = ?", data.ID)
+	} else if data.Floor > 0 && data.Row > 0 && data.Col > 0 {
+		tx = tx.Where("floor = ? AND row = ? AND col = ?", data.Floor, data.Row, data.Col)
+	} else {
+		return fmt.Errorf("must provide either spot_id or (floor, row, col)")
+	}
+
+	updates := map[string]interface{}{}
+	if data.Occupied != nil {
+		updates["unparked_at"] = data.Occupied
+	}
+
+	if len(updates) == 0 {
+		return fmt.Errorf("no updates provided")
+	}
+
+	if err := tx.Updates(updates).Error; err != nil {
 		return fmt.Errorf("failed to update parking spot: %w", err)
 	}
 
@@ -79,8 +92,8 @@ func (p *parking) UpdateParkingSpot(ctx context.Context, data entity.UpdateParki
 func (p *parking) UpdateVehicle(ctx context.Context, data entity.UpdateVehicle) error {
 	db := pkg.GetTransactionFromCtx(ctx, p.db)
 
-	if data.VehicleNumber == "" {
-		return fmt.Errorf("vehicle_number is required")
+	if data.ID < 1 {
+		return fmt.Errorf("vehicle id is required")
 	}
 
 	updates := map[string]interface{}{}
@@ -94,10 +107,18 @@ func (p *parking) UpdateVehicle(ctx context.Context, data entity.UpdateVehicle) 
 
 	if err := db.WithContext(ctx).
 		Model(&entity.Vehicle{}).
-		Where("vehicle_number = ?", data.VehicleNumber).
+		Where("id = ?", data.ID).
 		Updates(updates).Error; err != nil {
 		return fmt.Errorf("failed to update vehicle: %w", err)
 	}
 
 	return nil
+}
+
+func (p *parking) GetVehicle(ctx context.Context, data entity.SearchVehicle) (entity.Vehicle, error) {
+	var (
+		result entity.Vehicle
+	)
+
+	return result, nil
 }

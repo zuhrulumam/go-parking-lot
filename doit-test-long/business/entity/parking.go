@@ -62,7 +62,11 @@ type SearchVehicle struct {
 }
 
 type UpdateParkingSpot struct {
-	Occupied bool `json:"occupied"`
+	ID       uint `json:"id"`
+	Floor    int
+	Row      int
+	Col      int
+	Occupied *bool `json:"occupied"`
 }
 
 type InsertVehicle struct {
@@ -72,6 +76,13 @@ type InsertVehicle struct {
 }
 
 type UpdateVehicle struct {
+	ID            uint
 	VehicleNumber string
 	UnparkedAt    *time.Time
+}
+
+type SpotID struct {
+	Floor int
+	Row   int
+	Col   int
 }

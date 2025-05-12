@@ -9,6 +9,10 @@ import (
 
 type DomainItf interface {
 	GetAvailableParkingSpot(ctx context.Context, data entity.GetAvailableParkingSpot) ([]entity.ParkingSpot, error)
+	InsertVehicle(ctx context.Context, data entity.InsertVehicle) error
+	UpdateParkingSpot(ctx context.Context, data entity.UpdateParkingSpot) error
+	UpdateVehicle(ctx context.Context, data entity.UpdateVehicle) error
+	GetVehicle(ctx context.Context, data entity.SearchVehicle) (entity.Vehicle, error)
 }
 
 type parking struct {
