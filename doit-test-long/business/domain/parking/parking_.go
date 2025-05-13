@@ -9,6 +9,7 @@ import (
 	"github.com/zuhrulumam/doit-test/business/entity"
 	"github.com/zuhrulumam/doit-test/pkg"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	x "github.com/zuhrulumam/doit-test/pkg/errors"
 )
@@ -34,6 +35,11 @@ func (p *parking) GetAvailableParkingSpot(ctx context.Context, data entity.GetAv
 	// Filter by occupied status
 	if data.Occupied != nil {
 		db = db.Where("occupied = ?", *data.Occupied)
+	}
+
+	// if use lock
+	if data.UseLock {
+		db.Clauses(clause.Locking{Strength: "UPDATE"})
 	}
 
 	// Only get the first match

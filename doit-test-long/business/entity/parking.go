@@ -21,6 +21,7 @@ type GetAvailableParkingSpot struct {
 	VehicleType VehicleType `json:"vehicle_type"`
 	Active      *bool       `json:"active"`
 	Occupied    *bool       `json:"occupied"`
+	UseLock     bool        `json:"use_lock"`
 }
 
 type ParkingSpot struct {

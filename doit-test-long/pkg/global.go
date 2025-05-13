@@ -9,6 +9,12 @@ import (
 	"github.com/zuhrulumam/doit-test/business/entity"
 )
 
+type CtxVal string
+
+var (
+	TxCtxValue CtxVal = "tx"
+)
+
 func BoolPtr(b bool) *bool {
 	return &b
 }

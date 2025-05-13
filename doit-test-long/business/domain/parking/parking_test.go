@@ -121,7 +121,7 @@ func TestInsertVehicle(t *testing.T) {
 			d := parking.InitParkingDomain(parking.Option{DB: db})
 
 			tx := db.Begin()
-			ctx := context.WithValue(context.Background(), "tx", tx)
+			ctx := context.WithValue(context.Background(), pkg.TxCtxValue, tx)
 			err := d.InsertVehicle(ctx, tt.input)
 
 			if tt.expectError {

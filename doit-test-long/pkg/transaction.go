@@ -7,7 +7,7 @@ import (
 )
 
 func GetTransactionFromCtx(ctx context.Context, db *gorm.DB) *gorm.DB {
-	tx, ok := ctx.Value("tx").(*gorm.DB)
+	tx, ok := ctx.Value(TxCtxValue).(*gorm.DB)
 	if !ok {
 		return db
 	}

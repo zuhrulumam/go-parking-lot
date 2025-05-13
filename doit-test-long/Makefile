@@ -25,7 +25,7 @@ up:
 
 # Clean up
 clean:
-	go clean
+	go run main.go clean-db
 
 # this about traefik
 start-traefik:

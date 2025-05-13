@@ -53,6 +53,16 @@ func seed(db *gorm.DB, floors, rows, cols int) {
 		log.Fatalf("failed to migrate tables: %v", err)
 	}
 
+	// add constraint
+	err := db.Exec(`
+		CREATE UNIQUE INDEX IF NOT EXISTS unique_active_spot 
+		ON vehicles(spot_id) 
+		WHERE unparked_at IS NULL
+	`).Error
+	if err != nil {
+		log.Fatalf("failed to add index table: %v", err)
+	}
+
 	var spots []ParkingSpot
 
 	for f := 1; f <= floors; f++ {
