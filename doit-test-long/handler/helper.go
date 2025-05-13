@@ -26,8 +26,9 @@ func (e *rest) compileError(c *fiber.Ctx, err error) error {
 		he = errors.EM.Message("EN", "internal")
 	}
 
-	return c.Status(httpStatus).JSON(fiber.Map{
-		"human_error": he,
-		"debug_error": err.Error(),
+	return c.Status(httpStatus).JSON(ErrorResponse{
+		HumanError: he,
+		DebugError: err.Error(),
+		Success:    false,
 	})
 }

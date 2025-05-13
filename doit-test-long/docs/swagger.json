@@ -1,0 +1,314 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/spot/available": {
+            "get": {
+                "description": "Returns a list of available spots for a specific vehicle type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parking"
+                ],
+                "summary": "Get available parking spots",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Vehicle Type (M, B, A)",
+                        "name": "vehicle_type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.AvailableSpotResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/park": {
+            "post": {
+                "description": "Parks a vehicle into an available spot",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parking"
+                ],
+                "summary": "Park a vehicle",
+                "parameters": [
+                    {
+                        "description": "Vehicle Info",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.ParkRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ParkResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/search": {
+            "get": {
+                "description": "Returns information about a vehicle parked in the lot",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parking"
+                ],
+                "summary": "Search a parked vehicle",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Vehicle Number",
+                        "name": "vehicle_number",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.SearchVehicleResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicle/unpark": {
+            "post": {
+                "description": "Removes a vehicle from the parking lot",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parking"
+                ],
+                "summary": "Unpark a vehicle",
+                "parameters": [
+                    {
+                        "description": "Unpark Info",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.UnparkRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.UnparkResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.Vehicle": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "parked_at": {
+                    "type": "string"
+                },
+                "spot_id": {
+                    "type": "string"
+                },
+                "unparked_at": {
+                    "type": "string"
+                },
+                "vehicle_number": {
+                    "type": "string"
+                },
+                "vehicle_type": {
+                    "description": "'B', 'M', 'A'",
+                    "type": "string"
+                }
+            }
+        },
+        "handler.AvailableSpotResponse": {
+            "type": "object",
+            "properties": {
+                "available_spots": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/handler.ParkingSpotBrief"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "vehicle_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "debug_error": {
+                    "type": "string"
+                },
+                "human_error": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "handler.ParkRequest": {
+            "type": "object",
+            "required": [
+                "vehicle_number",
+                "vehicle_type"
+            ],
+            "properties": {
+                "vehicle_number": {
+                    "type": "string"
+                },
+                "vehicle_type": {
+                    "type": "string",
+                    "enum": [
+                        "M",
+                        "B",
+                        "A"
+                    ]
+                }
+            }
+        },
+        "handler.ParkResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "spot_id": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "handler.ParkingSpotBrief": {
+            "type": "object",
+            "properties": {
+                "column": {
+                    "type": "integer"
+                },
+                "floor": {
+                    "type": "integer"
+                },
+                "row": {
+                    "type": "integer"
+                },
+                "spot_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.SearchVehicleResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "vehicle": {
+                    "$ref": "#/definitions/entity.Vehicle"
+                }
+            }
+        },
+        "handler.UnparkRequest": {
+            "type": "object",
+            "required": [
+                "vehicle_number"
+            ],
+            "properties": {
+                "spot_id": {
+                    "type": "string"
+                },
+                "vehicle_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.UnparkResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

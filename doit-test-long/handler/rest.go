@@ -2,7 +2,9 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
 	"github.com/zuhrulumam/doit-test/business/usecase"
+	_ "github.com/zuhrulumam/doit-test/docs" // replace with your module
 )
 
 type Rest interface {
@@ -30,13 +32,16 @@ func Init(opt Option) Rest {
 }
 
 func (r rest) Serve() {
+	// swagger
+	r.app.Get("/swagger/*", swagger.HandlerDefault)
+
 	// search vehicle
-	r.app.Get("/search-vehicle", r.SearchVehicle)
+	r.app.Get("/vehicle/search", r.SearchVehicle)
 
 	// available spots
-	r.app.Get("/available-spot", r.AvailableSpot)
+	r.app.Get("/spot/available", r.AvailableSpot)
 
-	r.app.Post("/park", r.Park)
+	r.app.Post("/vehicle/park", r.Park)
 
-	r.app.Post("/unpark", r.UnPark)
+	r.app.Post("/vehicle/unpark", r.UnPark)
 }

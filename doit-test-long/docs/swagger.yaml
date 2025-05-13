@@ -1,0 +1,204 @@
+definitions:
+  entity.Vehicle:
+    properties:
+      id:
+        type: integer
+      parked_at:
+        type: string
+      spot_id:
+        type: string
+      unparked_at:
+        type: string
+      vehicle_number:
+        type: string
+      vehicle_type:
+        description: '''B'', ''M'', ''A'''
+        type: string
+    type: object
+  handler.AvailableSpotResponse:
+    properties:
+      available_spots:
+        items:
+          $ref: '#/definitions/handler.ParkingSpotBrief'
+        type: array
+      message:
+        type: string
+      success:
+        type: boolean
+      vehicle_type:
+        type: string
+    type: object
+  handler.ErrorResponse:
+    properties:
+      debug_error:
+        type: string
+      human_error:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handler.ParkRequest:
+    properties:
+      vehicle_number:
+        type: string
+      vehicle_type:
+        enum:
+        - M
+        - B
+        - A
+        type: string
+    required:
+    - vehicle_number
+    - vehicle_type
+    type: object
+  handler.ParkResponse:
+    properties:
+      message:
+        type: string
+      spot_id:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handler.ParkingSpotBrief:
+    properties:
+      column:
+        type: integer
+      floor:
+        type: integer
+      row:
+        type: integer
+      spot_id:
+        type: string
+    type: object
+  handler.SearchVehicleResponse:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+      vehicle:
+        $ref: '#/definitions/entity.Vehicle'
+    type: object
+  handler.UnparkRequest:
+    properties:
+      spot_id:
+        type: string
+      vehicle_number:
+        type: string
+    required:
+    - vehicle_number
+    type: object
+  handler.UnparkResponse:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /spot/available:
+    get:
+      consumes:
+      - application/json
+      description: Returns a list of available spots for a specific vehicle type
+      parameters:
+      - description: Vehicle Type (M, B, A)
+        in: query
+        name: vehicle_type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.AvailableSpotResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get available parking spots
+      tags:
+      - Parking
+  /vehicle/park:
+    post:
+      consumes:
+      - application/json
+      description: Parks a vehicle into an available spot
+      parameters:
+      - description: Vehicle Info
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.ParkRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ParkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Park a vehicle
+      tags:
+      - Parking
+  /vehicle/search:
+    get:
+      consumes:
+      - application/json
+      description: Returns information about a vehicle parked in the lot
+      parameters:
+      - description: Vehicle Number
+        in: query
+        name: vehicle_number
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SearchVehicleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Search a parked vehicle
+      tags:
+      - Parking
+  /vehicle/unpark:
+    post:
+      consumes:
+      - application/json
+      description: Removes a vehicle from the parking lot
+      parameters:
+      - description: Unpark Info
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UnparkRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UnparkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Unpark a vehicle
+      tags:
+      - Parking
+swagger: "2.0"

@@ -2,11 +2,13 @@ package parking
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 
 	"github.com/zuhrulumam/doit-test/business/entity"
 	"github.com/zuhrulumam/doit-test/pkg"
+	"gorm.io/gorm"
 
 	x "github.com/zuhrulumam/doit-test/pkg/errors"
 )
@@ -132,6 +134,9 @@ func (p *parking) GetVehicle(ctx context.Context, data entity.SearchVehicle) (en
 	// Only get the first match
 	err := db.Order("id DESC").First(&result).Error
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return result, x.WrapWithCode(err, http.StatusNotFound, "vehicle not found")
+		}
 		return result, x.WrapWithCode(err, http.StatusInternalServerError, "failed get vehicle")
 	}
 

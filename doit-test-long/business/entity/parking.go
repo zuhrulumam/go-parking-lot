@@ -34,12 +34,12 @@ type ParkingSpot struct {
 }
 
 type Vehicle struct {
-	ID            uint `gorm:"primaryKey"`
-	VehicleNumber string
-	VehicleType   string `gorm:"size:1"` // 'B', 'M', 'A'
-	SpotID        string
-	ParkedAt      time.Time
-	UnparkedAt    *time.Time
+	ID            uint       `gorm:"primaryKey" json:"id"`
+	VehicleNumber string     `json:"vehicle_number"`
+	VehicleType   string     `gorm:"size:1" json:"vehicle_type"` // 'B', 'M', 'A'
+	SpotID        string     `json:"spot_id"`
+	ParkedAt      time.Time  `json:"parked_at"`
+	UnparkedAt    *time.Time `json:"unparked_at"`
 }
 
 type Park struct {

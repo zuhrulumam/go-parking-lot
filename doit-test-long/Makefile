@@ -11,6 +11,13 @@ start:
 
 all: seed start
 
+test:
+	go test -v ./...
+
+coverage:
+	go test $$(go list ./... | grep -v /mocks) -coverprofile=coverage.out
+	go tool cover -func=coverage.out
+
 # up
 up:
 	docker-compose up traefik

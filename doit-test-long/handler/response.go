@@ -32,3 +32,9 @@ type SearchVehicleResponse struct {
 	Message string          `json:"message,omitempty"`
 	Vehicle *entity.Vehicle `json:"vehicle,omitempty"`
 }
+
+type ErrorResponse struct {
+	Success    bool   `json:"success"`
+	HumanError string `json:"human_error"`
+	DebugError string `json:"debug_error"`
+}
