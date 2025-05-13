@@ -2,11 +2,13 @@ package parking
 
 import (
 	"context"
-	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/zuhrulumam/doit-test/business/entity"
 	"github.com/zuhrulumam/doit-test/pkg"
+
+	x "github.com/zuhrulumam/doit-test/pkg/errors"
 )
 
 func (p *parking) GetAvailableParkingSpot(ctx context.Context, data entity.GetAvailableParkingSpot) ([]entity.ParkingSpot, error) {
@@ -35,7 +37,7 @@ func (p *parking) GetAvailableParkingSpot(ctx context.Context, data entity.GetAv
 	// Only get the first match
 	err := db.Find(&result).Error
 	if err != nil {
-		return result, err
+		return result, x.WrapWithCode(err, http.StatusInternalServerError, "error get available parking spot")
 	}
 
 	return result, nil
@@ -52,7 +54,7 @@ func (p *parking) InsertVehicle(ctx context.Context, data entity.InsertVehicle) 
 	}
 
 	if err := db.WithContext(ctx).Create(&vehicle).Error; err != nil {
-		return fmt.Errorf("failed to insert vehicle: %w", err)
+		return x.WrapWithCode(err, http.StatusInternalServerError, "failed to insert vehicle")
 	}
 
 	return nil
@@ -70,7 +72,7 @@ func (p *parking) UpdateParkingSpot(ctx context.Context, data entity.UpdateParki
 	} else if data.Floor > 0 && data.Row > 0 && data.Col > 0 {
 		tx = tx.Where("floor = ? AND row = ? AND col = ?", data.Floor, data.Row, data.Col)
 	} else {
-		return fmt.Errorf("must provide either spot_id or (floor, row, col)")
+		return x.NewWithCode(http.StatusBadRequest, "must provide either spot_id or (floor, row, col)")
 	}
 
 	updates := map[string]interface{}{}
@@ -79,11 +81,11 @@ func (p *parking) UpdateParkingSpot(ctx context.Context, data entity.UpdateParki
 	}
 
 	if len(updates) == 0 {
-		return fmt.Errorf("no updates provided")
+		return x.NewWithCode(http.StatusBadRequest, "no updates provided")
 	}
 
 	if err := tx.Updates(updates).Error; err != nil {
-		return fmt.Errorf("failed to update parking spot: %w", err)
+		return x.WrapWithCode(err, http.StatusInternalServerError, "failed to update parking spot")
 	}
 
 	return nil
@@ -93,7 +95,7 @@ func (p *parking) UpdateVehicle(ctx context.Context, data entity.UpdateVehicle) 
 	db := pkg.GetTransactionFromCtx(ctx, p.db)
 
 	if data.ID < 1 {
-		return fmt.Errorf("vehicle id is required")
+		return x.NewWithCode(http.StatusBadRequest, "vehicle id is required")
 	}
 
 	updates := map[string]interface{}{}
@@ -102,14 +104,14 @@ func (p *parking) UpdateVehicle(ctx context.Context, data entity.UpdateVehicle) 
 	}
 
 	if len(updates) == 0 {
-		return fmt.Errorf("no updates provided")
+		return x.NewWithCode(http.StatusBadRequest, "no updates provided")
 	}
 
 	if err := db.WithContext(ctx).
 		Model(&entity.Vehicle{}).
 		Where("id = ?", data.ID).
 		Updates(updates).Error; err != nil {
-		return fmt.Errorf("failed to update vehicle: %w", err)
+		return x.WrapWithCode(err, http.StatusInternalServerError, "failed to update vehicle")
 	}
 
 	return nil
@@ -130,7 +132,7 @@ func (p *parking) GetVehicle(ctx context.Context, data entity.SearchVehicle) (en
 	// Only get the first match
 	err := db.Find(&result).Error
 	if err != nil {
-		return result, err
+		return result, x.WrapWithCode(err, http.StatusInternalServerError, "failed get vehicle")
 	}
 
 	return result, nil

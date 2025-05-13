@@ -2,9 +2,12 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/zuhrulumam/doit-test/business/entity"
+
+	x "github.com/zuhrulumam/doit-test/pkg/errors"
 )
 
 func (e *rest) SearchVehicle(c *fiber.Ctx) error {
@@ -15,7 +18,7 @@ func (e *rest) SearchVehicle(c *fiber.Ctx) error {
 		VehicleNumber: vehicleNumber,
 	})
 	if err != nil {
-		c.Status(400)
+		return e.compileError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(SearchVehicleResponse{
@@ -36,7 +39,7 @@ func (e *rest) AvailableSpot(c *fiber.Ctx) error {
 		VehicleType: entity.VehicleType(vehicleType),
 	})
 	if err != nil {
-		c.Status(400)
+		return e.compileError(c, err)
 	}
 
 	for _, s := range spots {
@@ -60,9 +63,7 @@ func (e *rest) Park(c *fiber.Ctx) error {
 
 	var input ParkRequest
 	if err := c.BodyParser(&input); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid JSON",
-		})
+		return e.compileError(c, x.NewWithCode(http.StatusBadRequest, "invalid input"))
 	}
 
 	err := e.uc.Parking.Park(c.Context(), entity.Park{
@@ -70,7 +71,7 @@ func (e *rest) Park(c *fiber.Ctx) error {
 		VehicleNumber: input.VehicleNumber,
 	})
 	if err != nil {
-		c.Status(400)
+		return e.compileError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(ParkResponse{
@@ -83,9 +84,7 @@ func (e *rest) UnPark(c *fiber.Ctx) error {
 
 	var input UnparkRequest
 	if err := c.BodyParser(&input); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid JSON",
-		})
+		return e.compileError(c, x.NewWithCode(http.StatusBadRequest, "invalid input"))
 	}
 
 	err := e.uc.Parking.Unpark(c.Context(), entity.UnPark{
@@ -93,7 +92,7 @@ func (e *rest) UnPark(c *fiber.Ctx) error {
 		VehicleNumber: input.VehicleNumber,
 	})
 	if err != nil {
-		c.Status(400)
+		return e.compileError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(UnparkResponse{

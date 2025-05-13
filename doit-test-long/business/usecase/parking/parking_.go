@@ -4,10 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/zuhrulumam/doit-test/business/entity"
 	"github.com/zuhrulumam/doit-test/pkg"
+	x "github.com/zuhrulumam/doit-test/pkg/errors"
 )
 
 func (p *parking) Park(ctx context.Context, data entity.Park) error {
@@ -70,6 +72,10 @@ func (p *parking) Unpark(ctx context.Context, data entity.UnPark) error {
 		})
 		if err != nil {
 			return err
+		}
+
+		if vec.UnparkedAt != nil {
+			return x.NewWithCode(http.StatusBadRequest, "already unparked")
 		}
 
 		// update vehicle

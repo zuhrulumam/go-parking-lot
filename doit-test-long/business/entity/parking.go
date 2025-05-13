@@ -58,7 +58,6 @@ type GetAvailablePark struct {
 
 type SearchVehicle struct {
 	VehicleNumber string `json:"vehicle_number"`
-	SpotID        string `json:"spot_id"`
 }
 
 type UpdateParkingSpot struct {

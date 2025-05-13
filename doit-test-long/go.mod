@@ -5,6 +5,7 @@ go 1.24.0
 require (
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/joho/godotenv v1.5.1
+	github.com/palantir/stacktrace v0.0.0-20161112013806-78658fd2d177
 	github.com/spf13/cobra v1.9.1
 	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.26.1
