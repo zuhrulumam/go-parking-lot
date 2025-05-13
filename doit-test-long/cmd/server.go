@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/zuhrulumam/doit-test/business/domain"
 	"github.com/zuhrulumam/doit-test/business/usecase"
+	"github.com/zuhrulumam/doit-test/handler"
 	"gorm.io/gorm"
 )
 
@@ -26,6 +27,8 @@ var (
 
 func run() {
 
+	app := fiber.New()
+
 	// init sql
 	g, err := connectDB()
 	if err != nil {
@@ -43,10 +46,12 @@ func run() {
 	uc = usecase.Init(dom, usecase.Option{})
 
 	// init rest
+	handler.Init(handler.Option{
+		Uc:  uc,
+		App: app,
+	})
 
-	app := fiber.New()
-
-	log.Println(app.Listen(":3000"))
+	log.Println(app.Listen(":8080"))
 }
 
 // TODO: Gracefull shutdown

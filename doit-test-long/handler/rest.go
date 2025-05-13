@@ -1,16 +1,28 @@
 package handler
 
-import "github.com/zuhrulumam/doit-test/business/usecase"
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/zuhrulumam/doit-test/business/usecase"
+)
 
 type Rest interface {
 }
 
-type rest struct {
-	uc *usecase.Usecase
+type Option struct {
+	Uc  *usecase.Usecase
+	App *fiber.App
 }
 
-func Init(uc *usecase.Usecase) Rest {
-	e := &rest{}
+type rest struct {
+	uc  *usecase.Usecase
+	app *fiber.App
+}
+
+func Init(opt Option) Rest {
+	e := &rest{
+		uc:  opt.Uc,
+		app: opt.App,
+	}
 
 	e.Serve()
 
@@ -18,5 +30,13 @@ func Init(uc *usecase.Usecase) Rest {
 }
 
 func (r rest) Serve() {
-	// r.uc.Parking.Park()
+	// search vehicle
+	r.app.Get("/search-vehicle", r.SearchVehicle)
+
+	// available spots
+	r.app.Get("/available-spot", r.AvailableSpot)
+
+	r.app.Post("/park", r.Park)
+
+	r.app.Post("/unpark", r.UnPark)
 }

@@ -65,7 +65,9 @@ func (p *parking) Unpark(ctx context.Context, data entity.UnPark) error {
 	return p.TransactionDom.RunInTx(ctx, func(newCtx context.Context) error {
 
 		// get vehicle by spotID, vehicle number, and UnparkedAt null
-		vec, err := p.ParkingDom.GetVehicle(newCtx, entity.SearchVehicle{})
+		vec, err := p.ParkingDom.GetVehicle(newCtx, entity.SearchVehicle{
+			VehicleNumber: data.VehicleNumber,
+		})
 		if err != nil {
 			return err
 		}
@@ -79,7 +81,7 @@ func (p *parking) Unpark(ctx context.Context, data entity.UnPark) error {
 			return err
 		}
 
-		sp, err := pkg.ParseSpotID(data.SpotID)
+		sp, err := pkg.ParseSpotID(vec.SpotID)
 		if err != nil {
 			return err
 		}

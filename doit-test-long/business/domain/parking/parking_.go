@@ -75,7 +75,7 @@ func (p *parking) UpdateParkingSpot(ctx context.Context, data entity.UpdateParki
 
 	updates := map[string]interface{}{}
 	if data.Occupied != nil {
-		updates["unparked_at"] = data.Occupied
+		updates["occupied"] = data.Occupied
 	}
 
 	if len(updates) == 0 {
@@ -119,6 +119,19 @@ func (p *parking) GetVehicle(ctx context.Context, data entity.SearchVehicle) (en
 	var (
 		result entity.Vehicle
 	)
+
+	db := p.db.WithContext(ctx).Model(&entity.Vehicle{})
+
+	// Filter by type
+	if data.VehicleNumber != "" {
+		db = db.Where("vehicle_number = ?", data.VehicleNumber)
+	}
+
+	// Only get the first match
+	err := db.Find(&result).Error
+	if err != nil {
+		return result, err
+	}
 
 	return result, nil
 }
