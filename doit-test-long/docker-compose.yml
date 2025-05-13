@@ -1,16 +1,32 @@
 version: "3.8"
 
 services:
+  traefik:
+    image: traefik:v2.3
+    ports:
+      # Exposes port 80 for incomming web requests
+      - "80:80"
+      - "443:443"
+      # The Web UI port http://0.0.0.0:8080 (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.yml:/etc/traefik/traefik.yml
+
   app:
     build: .
-    ports:
-      - "8080:8080"
     environment:
       - DB_HOST=postgres
       - DB_USER=youruser
       - DB_PASSWORD=yourpassword
       - DB_NAME=yourdb
       - DB_PORT=5432
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`parking.localhost`)"
+      - "traefik.http.services.app.loadbalancer.server.port=8080"
+      - "traefik.http.routers.freshsvc.entrypoints=web"
     depends_on:
       - postgres
     command: ["start"]

@@ -13,8 +13,23 @@ all: seed start
 
 # up
 up:
+	docker-compose up traefik
 	docker-compose up --build
 
 # Clean up
 clean:
 	go clean
+
+# this about traefik
+start-traefik:
+	docker-compose up traefik
+
+scale:
+	@if [ -z "$(n)" ]; then \
+		echo "Usage: make scale n=3"; \
+		exit 1; \
+	fi; \
+	docker-compose up -d --scale app=$(n)
+
+stop:
+	docker-compose down
