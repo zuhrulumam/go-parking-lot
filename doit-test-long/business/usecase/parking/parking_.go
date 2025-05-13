@@ -54,7 +54,6 @@ func (p *parking) Park(ctx context.Context, data entity.Park) error {
 
 		return nil
 	})
-
 	if err != nil {
 		return err
 	}

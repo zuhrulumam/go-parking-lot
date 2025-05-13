@@ -9,18 +9,25 @@ import (
 
 func (e *rest) compileError(c *fiber.Ctx, err error) error {
 
-	code := errors.ErrCode(err)
-	var httpStatus int
-
+	var (
+		httpStatus int
+		he         string
+		code       = errors.ErrCode(err)
+	)
 	switch code {
 	case 400:
 		httpStatus = http.StatusBadRequest
+		he = errors.EM.Message("EN", "badrequest")
+	case 404:
+		httpStatus = http.StatusNotFound
+		he = errors.EM.Message("EN", "notfound")
 	default:
 		httpStatus = http.StatusInternalServerError
+		he = errors.EM.Message("EN", "internal")
 	}
 
 	return c.Status(httpStatus).JSON(fiber.Map{
-		"human_error": err,
+		"human_error": he,
 		"debug_error": err.Error(),
 	})
 }

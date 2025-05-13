@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+//go:generate mockgen -source=business/domain/parking/parking.go -destination=mocks/mock_parking.go -package=mocks
 type DomainItf interface {
 	GetAvailableParkingSpot(ctx context.Context, data entity.GetAvailableParkingSpot) ([]entity.ParkingSpot, error)
 	InsertVehicle(ctx context.Context, data entity.InsertVehicle) error
