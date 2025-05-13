@@ -7,8 +7,26 @@ services:
       - "8080:8080"
     environment:
       - DB_HOST=postgres
+      - DB_USER=youruser
+      - DB_PASSWORD=yourpassword
+      - DB_NAME=yourdb
+      - DB_PORT=5432
     depends_on:
       - postgres
+    command: ["start"]
+
+  seed:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=youruser
+      - DB_PASSWORD=yourpassword
+      - DB_NAME=yourdb
+      - DB_PORT=5432
+    command: ["seed", "3", "10", "10"]
+    restart: "no" # optional: don't restart after seeding
 
   postgres:
     image: postgres:15
@@ -16,8 +34,8 @@ services:
       - POSTGRES_USER=youruser
       - POSTGRES_PASSWORD=yourpassword
       - POSTGRES_DB=yourdb
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
 
-volumes:
-  pgdata:
+# volumes:
+#   pgdata:

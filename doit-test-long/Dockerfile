@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 # Set environment variables
 ENV CGO_ENABLED=0 \
@@ -30,8 +30,7 @@ WORKDIR /app
 # Copy built binary from builder
 COPY --from=builder /app/parking-lot .
 
-# Expose port (change if needed)
 EXPOSE 8080
 
 # Run the binary
-CMD ["./parking-lot"]
+ENTRYPOINT ["./parking-lot"]

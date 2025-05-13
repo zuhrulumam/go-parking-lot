@@ -1,12 +1,20 @@
-.PHONY: seed start all
+APP_NAME = parking-lot
+IMAGE_NAME = $(APP_NAME):latest
 
-# Run seed with parameters: floor=3, row=10, col=10
+# Run seeding: floor=3, row=10, col=10
 seed:
 	go run main.go seed 3 10 10
 
-# Start the main app
+# Run app
 start:
 	go run main.go start
 
-# Run both: seed then start
 all: seed start
+
+# up
+up:
+	docker-compose up --build
+
+# Clean up
+clean:
+	go clean
