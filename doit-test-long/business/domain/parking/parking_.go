@@ -130,7 +130,7 @@ func (p *parking) GetVehicle(ctx context.Context, data entity.SearchVehicle) (en
 	}
 
 	// Only get the first match
-	err := db.Find(&result).Error
+	err := db.Order("id DESC").First(&result).Error
 	if err != nil {
 		return result, x.WrapWithCode(err, http.StatusInternalServerError, "failed get vehicle")
 	}

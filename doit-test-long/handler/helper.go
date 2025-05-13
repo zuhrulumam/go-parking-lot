@@ -20,7 +20,7 @@ func (e *rest) compileError(c *fiber.Ctx, err error) error {
 	}
 
 	return c.Status(httpStatus).JSON(fiber.Map{
-		"sys":         err.Error(),
 		"human_error": err,
+		"debug_error": err.Error(),
 	})
 }

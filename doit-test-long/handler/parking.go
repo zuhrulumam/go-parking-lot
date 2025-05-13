@@ -4,10 +4,15 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/zuhrulumam/doit-test/business/entity"
 
 	x "github.com/zuhrulumam/doit-test/pkg/errors"
+)
+
+var (
+	validate = validator.New()
 )
 
 func (e *rest) SearchVehicle(c *fiber.Ctx) error {
@@ -63,7 +68,11 @@ func (e *rest) Park(c *fiber.Ctx) error {
 
 	var input ParkRequest
 	if err := c.BodyParser(&input); err != nil {
-		return e.compileError(c, x.NewWithCode(http.StatusBadRequest, "invalid input"))
+		return e.compileError(c, x.WrapWithCode(err, http.StatusBadRequest, "invalid input"))
+	}
+
+	if err := validate.Struct(input); err != nil {
+		return e.compileError(c, x.WrapWithCode(err, http.StatusBadRequest, "failed validation"))
 	}
 
 	err := e.uc.Parking.Park(c.Context(), entity.Park{
@@ -84,7 +93,11 @@ func (e *rest) UnPark(c *fiber.Ctx) error {
 
 	var input UnparkRequest
 	if err := c.BodyParser(&input); err != nil {
-		return e.compileError(c, x.NewWithCode(http.StatusBadRequest, "invalid input"))
+		return e.compileError(c, x.WrapWithCode(err, http.StatusBadRequest, "invalid input"))
+	}
+
+	if err := validate.Struct(input); err != nil {
+		return e.compileError(c, x.WrapWithCode(err, http.StatusBadRequest, "failed validation"))
 	}
 
 	err := e.uc.Parking.Unpark(c.Context(), entity.UnPark{

@@ -81,7 +81,16 @@ func connectDB() (*gorm.DB, error) {
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
 		os.Getenv("DB_PORT"))
-	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+	// Enable debug mode if not production
+	if os.Getenv("ENV") != "production" {
+		db = db.Debug()
+	}
+	return db, nil
 }
 
 func randomType() string {
