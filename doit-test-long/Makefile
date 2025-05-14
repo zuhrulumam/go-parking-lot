@@ -20,7 +20,6 @@ coverage:
 
 # up
 up:
-	docker-compose up traefik
 	docker-compose up --build
 
 # Clean up
