@@ -1,9 +1,9 @@
 APP_NAME = parking-lot
 IMAGE_NAME = $(APP_NAME):latest
 
-# Run seeding: floor=3, row=10, col=10
+# Run seeding: floor=5, row=20, col=20
 seed:
-	go run main.go seed 3 10 10
+	go run main.go seed 5 20 20
 
 # Run app
 start:
@@ -26,6 +26,9 @@ up:
 # Clean up
 clean:
 	go run main.go clean-db
+
+run-load-test:
+	k6 run test.js --summary-export=summary.json > output.log 2>&1
 
 # this about traefik
 start-traefik:

@@ -21,6 +21,7 @@ func (p *parking) Park(ctx context.Context, data entity.Park) error {
 			VehicleType: data.VehicleType,
 			Active:      pkg.BoolPtr(true),
 			Occupied:    pkg.BoolPtr(false),
+			UseLock:     true,
 		})
 		if err != nil {
 			return err
