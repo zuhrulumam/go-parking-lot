@@ -34,20 +34,20 @@ func (p *parking) Park(ctx context.Context, data entity.Park) error {
 		spot := pSpots[0]
 		spotID := fmt.Sprintf("%d-%d-%d", spot.Floor, spot.Row, spot.Col)
 
-		// insert vehicle
-		err = p.ParkingDom.InsertVehicle(newCtx, entity.InsertVehicle{
-			VehicleNumber: data.VehicleNumber,
-			VehicleType:   string(data.VehicleType),
-			SpotID:        spotID,
+		// update parking_spot occupied = true as floor row col
+		err = p.ParkingDom.UpdateParkingSpot(newCtx, entity.UpdateParkingSpot{
+			ID:       spot.ID,
+			Occupied: pkg.BoolPtr(true),
 		})
 		if err != nil {
 			return err
 		}
 
-		// update parking_spot occupied = true as floor row col
-		err = p.ParkingDom.UpdateParkingSpot(newCtx, entity.UpdateParkingSpot{
-			ID:       spot.ID,
-			Occupied: pkg.BoolPtr(true),
+		// insert vehicle
+		err = p.ParkingDom.InsertVehicle(newCtx, entity.InsertVehicle{
+			VehicleNumber: data.VehicleNumber,
+			VehicleType:   string(data.VehicleType),
+			SpotID:        spotID,
 		})
 		if err != nil {
 			return err

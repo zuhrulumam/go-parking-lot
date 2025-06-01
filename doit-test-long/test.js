@@ -85,8 +85,8 @@ function unparkVehicle() {
 }
 
 export default function () {
-  // 70% chance to park, 30% to unpark
-  if (Math.random() < 0.7) {
+  // 40% chance to park, 60% to unpark
+  if (Math.random() < 0.4) {
     parkVehicle();
   } else {
     unparkVehicle();

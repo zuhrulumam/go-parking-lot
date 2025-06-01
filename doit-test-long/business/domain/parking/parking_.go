@@ -18,9 +18,10 @@ func (p *parking) GetAvailableParkingSpot(ctx context.Context, data entity.GetAv
 
 	var (
 		result []entity.ParkingSpot
+		db     = pkg.GetTransactionFromCtx(ctx, p.db)
 	)
 
-	db := p.db.WithContext(ctx).Model(&entity.ParkingSpot{})
+	db = db.Model(&entity.ParkingSpot{})
 
 	// Filter by type
 	if data.VehicleType != "" {

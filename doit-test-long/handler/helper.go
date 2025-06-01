@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/zuhrulumam/doit-test/pkg/errors"
+	"github.com/zuhrulumam/doit-test/pkg/logger"
 )
 
 func (e *rest) compileError(c *fiber.Ctx, err error) error {
@@ -13,6 +15,7 @@ func (e *rest) compileError(c *fiber.Ctx, err error) error {
 		httpStatus int
 		he         string
 		code       = errors.ErrCode(err)
+		ctx        = c.Locals("ctx").(context.Context)
 	)
 	switch code {
 	case 400:
@@ -25,6 +28,8 @@ func (e *rest) compileError(c *fiber.Ctx, err error) error {
 		httpStatus = http.StatusInternalServerError
 		he = errors.EM.Message("EN", "internal")
 	}
+
+	logger.LogWithCtx(ctx, e.log, err.Error())
 
 	return c.Status(httpStatus).JSON(ErrorResponse{
 		HumanError: he,

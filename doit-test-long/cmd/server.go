@@ -8,6 +8,9 @@ import (
 	"github.com/zuhrulumam/doit-test/business/domain"
 	"github.com/zuhrulumam/doit-test/business/usecase"
 	"github.com/zuhrulumam/doit-test/handler"
+	"github.com/zuhrulumam/doit-test/pkg/logger"
+	"github.com/zuhrulumam/doit-test/pkg/middlewares"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
@@ -23,11 +26,15 @@ var (
 	dom *domain.Domain
 	uc  *usecase.Usecase
 	db  *gorm.DB
+	lg  *zap.Logger
 )
 
 func run() {
 
+	lg = logger.NewZapLogger()
+
 	app := fiber.New()
+	app.Use(middlewares.RequestContextMiddleware(lg))
 
 	// init sql
 	g, err := connectDB()
@@ -49,6 +56,7 @@ func run() {
 	handler.Init(handler.Option{
 		Uc:  uc,
 		App: app,
+		Log: lg,
 	})
 
 	log.Println(app.Listen(":8080"))

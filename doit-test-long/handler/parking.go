@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -96,7 +97,10 @@ func (e *rest) AvailableSpot(c *fiber.Ctx) error {
 // @Router       /vehicle/park [post]
 func (e *rest) Park(c *fiber.Ctx) error {
 
-	var input ParkRequest
+	var (
+		input ParkRequest
+		ctx   = c.Locals("ctx").(context.Context)
+	)
 	if err := c.BodyParser(&input); err != nil {
 		return e.compileError(c, x.WrapWithCode(err, http.StatusBadRequest, "invalid input"))
 	}
@@ -105,7 +109,7 @@ func (e *rest) Park(c *fiber.Ctx) error {
 		return e.compileError(c, x.WrapWithCode(err, http.StatusBadRequest, "failed validation"))
 	}
 
-	err := e.uc.Parking.Park(c.Context(), entity.Park{
+	err := e.uc.Parking.Park(ctx, entity.Park{
 		VehicleType:   entity.VehicleType(input.VehicleType),
 		VehicleNumber: input.VehicleNumber,
 	})

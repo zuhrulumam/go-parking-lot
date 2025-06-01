@@ -5,6 +5,7 @@ import (
 	"github.com/gofiber/swagger"
 	"github.com/zuhrulumam/doit-test/business/usecase"
 	_ "github.com/zuhrulumam/doit-test/docs" // replace with your module
+	"go.uber.org/zap"
 )
 
 type Rest interface {
@@ -13,17 +14,20 @@ type Rest interface {
 type Option struct {
 	Uc  *usecase.Usecase
 	App *fiber.App
+	Log *zap.Logger
 }
 
 type rest struct {
 	uc  *usecase.Usecase
 	app *fiber.App
+	log *zap.Logger
 }
 
 func Init(opt Option) Rest {
 	e := &rest{
 		uc:  opt.Uc,
 		app: opt.App,
+		log: opt.Log,
 	}
 
 	e.Serve()
