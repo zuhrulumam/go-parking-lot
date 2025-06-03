@@ -5,11 +5,11 @@ import (
 
 	fiber "github.com/gofiber/fiber/v2"
 	"github.com/spf13/cobra"
-	"github.com/zuhrulumam/doit-test/business/domain"
-	"github.com/zuhrulumam/doit-test/business/usecase"
-	"github.com/zuhrulumam/doit-test/handler"
-	"github.com/zuhrulumam/doit-test/pkg/logger"
-	"github.com/zuhrulumam/doit-test/pkg/middlewares"
+	"github.com/zuhrulumam/go-parking-lot/business/domain"
+	"github.com/zuhrulumam/go-parking-lot/business/usecase"
+	"github.com/zuhrulumam/go-parking-lot/handler"
+	"github.com/zuhrulumam/go-parking-lot/pkg/logger"
+	"github.com/zuhrulumam/go-parking-lot/pkg/middlewares"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )

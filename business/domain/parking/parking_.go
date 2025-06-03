@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/zuhrulumam/doit-test/business/entity"
-	"github.com/zuhrulumam/doit-test/pkg"
+	"github.com/zuhrulumam/go-parking-lot/business/entity"
+	"github.com/zuhrulumam/go-parking-lot/pkg"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 
-	x "github.com/zuhrulumam/doit-test/pkg/errors"
+	x "github.com/zuhrulumam/go-parking-lot/pkg/errors"
 )
 
 func (p *parking) GetAvailableParkingSpot(ctx context.Context, data entity.GetAvailableParkingSpot) ([]entity.ParkingSpot, error) {

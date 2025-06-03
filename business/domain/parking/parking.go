@@ -3,7 +3,7 @@ package parking
 import (
 	"context"
 
-	"github.com/zuhrulumam/doit-test/business/entity"
+	"github.com/zuhrulumam/go-parking-lot/business/entity"
 	"gorm.io/gorm"
 )
 

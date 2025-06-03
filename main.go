@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/joho/godotenv"
-	"github.com/zuhrulumam/doit-test/cmd"
+	"github.com/zuhrulumam/go-parking-lot/cmd"
 )
 
 func main() {

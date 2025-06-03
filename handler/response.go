@@ -1,6 +1,6 @@
 package handler
 
-import "github.com/zuhrulumam/doit-test/business/entity"
+import "github.com/zuhrulumam/go-parking-lot/business/entity"
 
 type ParkResponse struct {
 	Success bool   `json:"success"`

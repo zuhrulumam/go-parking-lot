@@ -3,8 +3,8 @@ package handler
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/swagger"
-	"github.com/zuhrulumam/doit-test/business/usecase"
-	_ "github.com/zuhrulumam/doit-test/docs" // replace with your module
+	"github.com/zuhrulumam/go-parking-lot/business/usecase"
+	_ "github.com/zuhrulumam/go-parking-lot/docs" // replace with your module
 	"go.uber.org/zap"
 )
 

@@ -3,7 +3,7 @@ package logger
 import (
 	"context"
 
-	"github.com/zuhrulumam/doit-test/pkg/ctxkeys"
+	"github.com/zuhrulumam/go-parking-lot/pkg/ctxkeys"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )

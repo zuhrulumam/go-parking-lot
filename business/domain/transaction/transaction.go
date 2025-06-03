@@ -3,7 +3,7 @@ package transaction
 import (
 	"context"
 
-	"github.com/zuhrulumam/doit-test/pkg"
+	"github.com/zuhrulumam/go-parking-lot/pkg"
 	"gorm.io/gorm"
 )
 

@@ -6,7 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"github.com/zuhrulumam/doit-test/pkg/ctxkeys"
+	"github.com/zuhrulumam/go-parking-lot/pkg/ctxkeys"
 	"go.uber.org/zap"
 )
 

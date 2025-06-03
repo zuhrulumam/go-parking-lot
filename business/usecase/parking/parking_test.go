@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/zuhrulumam/doit-test/business/entity"
-	uc "github.com/zuhrulumam/doit-test/business/usecase/parking"
-	mockParking "github.com/zuhrulumam/doit-test/mocks/domain/parking"
-	mockTx "github.com/zuhrulumam/doit-test/mocks/domain/transaction"
+	"github.com/zuhrulumam/go-parking-lot/business/entity"
+	uc "github.com/zuhrulumam/go-parking-lot/business/usecase/parking"
+	mockParking "github.com/zuhrulumam/go-parking-lot/mocks/domain/parking"
+	mockTx "github.com/zuhrulumam/go-parking-lot/mocks/domain/transaction"
 	"go.uber.org/mock/gomock"
 )
 

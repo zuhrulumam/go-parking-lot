@@ -3,9 +3,9 @@ package parking
 import (
 	"context"
 
-	parkingDom "github.com/zuhrulumam/doit-test/business/domain/parking"
-	transactionDom "github.com/zuhrulumam/doit-test/business/domain/transaction"
-	"github.com/zuhrulumam/doit-test/business/entity"
+	parkingDom "github.com/zuhrulumam/go-parking-lot/business/domain/parking"
+	transactionDom "github.com/zuhrulumam/go-parking-lot/business/domain/transaction"
+	"github.com/zuhrulumam/go-parking-lot/business/entity"
 )
 
 type UsecaseItf interface {

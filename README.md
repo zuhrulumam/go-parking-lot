@@ -95,8 +95,6 @@ This project was a great opportunity to implement:
 - ✅ **SQL-based concurrency control**
 - ✅ **Real-world scalable backend patterns**
 
-Thanks for taking the time to review — feel free to check the video or reach out with any questions!
-
 ---
 
 **Made with 💻 by Umam**

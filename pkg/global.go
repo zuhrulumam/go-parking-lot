@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zuhrulumam/doit-test/business/entity"
+	"github.com/zuhrulumam/go-parking-lot/business/entity"
 )
 
 type CtxVal string

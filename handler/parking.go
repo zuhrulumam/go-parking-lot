@@ -7,9 +7,9 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"github.com/zuhrulumam/doit-test/business/entity"
+	"github.com/zuhrulumam/go-parking-lot/business/entity"
 
-	x "github.com/zuhrulumam/doit-test/pkg/errors"
+	x "github.com/zuhrulumam/go-parking-lot/pkg/errors"
 )
 
 var (

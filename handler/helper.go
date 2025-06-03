@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/zuhrulumam/doit-test/pkg/errors"
-	"github.com/zuhrulumam/doit-test/pkg/logger"
+	"github.com/zuhrulumam/go-parking-lot/pkg/errors"
+	"github.com/zuhrulumam/go-parking-lot/pkg/logger"
 )
 
 func (e *rest) compileError(c *fiber.Ctx, err error) error {

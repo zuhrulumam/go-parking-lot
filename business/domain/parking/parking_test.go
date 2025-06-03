@@ -9,9 +9,9 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
-	"github.com/zuhrulumam/doit-test/business/domain/parking"
-	"github.com/zuhrulumam/doit-test/business/entity"
-	"github.com/zuhrulumam/doit-test/pkg"
+	"github.com/zuhrulumam/go-parking-lot/business/domain/parking"
+	"github.com/zuhrulumam/go-parking-lot/business/entity"
+	"github.com/zuhrulumam/go-parking-lot/pkg"
 )
 
 func TestGetAvailableParkingSpot(t *testing.T) {

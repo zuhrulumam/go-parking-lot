@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/zuhrulumam/doit-test/business/entity"
-	"github.com/zuhrulumam/doit-test/pkg"
-	x "github.com/zuhrulumam/doit-test/pkg/errors"
+	"github.com/zuhrulumam/go-parking-lot/business/entity"
+	"github.com/zuhrulumam/go-parking-lot/pkg"
+	x "github.com/zuhrulumam/go-parking-lot/pkg/errors"
 )
 
 func (p *parking) Park(ctx context.Context, data entity.Park) error {

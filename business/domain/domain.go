@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"github.com/zuhrulumam/doit-test/business/domain/parking"
-	"github.com/zuhrulumam/doit-test/business/domain/transaction"
+	"github.com/zuhrulumam/go-parking-lot/business/domain/parking"
+	"github.com/zuhrulumam/go-parking-lot/business/domain/transaction"
 	"gorm.io/gorm"
 )
 

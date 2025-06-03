@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/zuhrulumam/doit-test/business/domain"
-	"github.com/zuhrulumam/doit-test/business/usecase/parking"
+	"github.com/zuhrulumam/go-parking-lot/business/domain"
+	"github.com/zuhrulumam/go-parking-lot/business/usecase/parking"
 )
 
 type Usecase struct {
