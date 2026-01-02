@@ -25,7 +25,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app.rule=Host(`parking.localhost`)"
-      - "traefik.http.services.app.loadbalancer.server.port=8080"
+      - "traefik.http.services.app.loadbalancer.server.port=80"
       - "traefik.http.routers.freshsvc.entrypoints=web"
     depends_on:
       - postgres
