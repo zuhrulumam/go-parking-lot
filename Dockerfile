@@ -30,7 +30,7 @@ WORKDIR /app
 # Copy built binary from builder
 COPY --from=builder /app/parking-lot .
 
-EXPOSE 80
+EXPOSE 8080
 
 # Run the binary
 ENTRYPOINT ["./parking-lot", "start"]
