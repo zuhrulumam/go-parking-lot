@@ -33,4 +33,4 @@ COPY --from=builder /app/parking-lot .
 EXPOSE 8080
 
 # Run the binary
-ENTRYPOINT ["./parking-lot"]
+ENTRYPOINT ["./parking-lot", "start"]
